@@ -1,0 +1,108 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/components/AuthProvider";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(`[AUTH] Login attempt: ${email}`);
+    setLoading(true);
+    setError("");
+
+    const { error, data } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.log(`[AUTH] Login failure: ${error.message}`);
+      if (error.message === "Email not confirmed") {
+        setError("Please verify your email before logging in.");
+      } else if (error.message === "Invalid login credentials") {
+        setError("Invalid email or password.");
+      } else {
+        setError(error.message);
+      }
+      setLoading(false);
+    } else {
+      console.log(`[AUTH] Login success: user ID ${data.user?.id}`);
+      router.push("/");
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background p-4 font-sans">
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-card border border-border p-8 shadow-md">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-foreground">
+            Welcome Back
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+          {error && (
+            <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+          <div className="space-y-4 rounded-md shadow-sm">
+            <div>
+              <Label htmlFor="email-address">Email address</Label>
+              <Input
+                id="email-address"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 bg-background text-foreground border-border placeholder:text-muted-foreground focus-visible:ring-primary"
+                placeholder="Email address"
+              />
+            </div>
+            <div>
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 bg-background text-foreground border-border placeholder:text-muted-foreground focus-visible:ring-primary"
+                placeholder="Password"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Signing in..." : "Sign in"}
+            </Button>
+          </div>
+          
+          <div className="text-center text-sm mt-4">
+            <span className="text-muted-foreground">Don't have an account? </span>
+            <Link href="/register" className="font-semibold text-primary hover:text-primary/80">
+              Register here
+            </Link>
+          </div>
+          
+
+        </form>
+      </div>
+    </div>
+  );
+}
