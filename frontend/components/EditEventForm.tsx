@@ -9,14 +9,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Event, updateEvent, uploadEventBanner } from "@/lib/api";
 
 const CATEGORIES = [
+  "Technology",
+  "Business",
+  "Education",
+  "Entertainment",
+  "Sports",
+  "Health",
+  "Community",
   "Music",
   "Food",
-  "Sports",
-  "Community",
-  "Education",
   "Arts",
   "Yard Sale",
-  "Other"
+  "Other",
 ];
 
 interface EditEventFormProps {

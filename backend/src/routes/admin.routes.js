@@ -1,0 +1,15 @@
+import { Router } from "express";
+import { dashboard, listAdminEvents, listPendingEvents, approveEvent, rejectEvent, listUsers, listRegistrations, listEventRegistrations } from "../controllers/admin.controller.js";
+import { requireAuth } from "../middleware/auth.js";
+import { requireAdmin } from "../middleware/admin.js";
+const router = Router();
+router.use(requireAuth, requireAdmin);
+router.get("/dashboard", dashboard);
+router.get("/events", listAdminEvents);
+router.get("/events/pending", listPendingEvents);
+router.post("/events/:id/approve", approveEvent);
+router.post("/events/:id/reject", rejectEvent);
+router.get("/users", listUsers);
+router.get("/registrations", listRegistrations);
+router.get("/events/:id/registrations", listEventRegistrations);
+export default router;

@@ -1,0 +1,25 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "--build-arg"
+      - "NEXT_PUBLIC_API_URL=${_NEXT_PUBLIC_API_URL}"
+      - "--build-arg"
+      - "NEXT_PUBLIC_SUPABASE_URL=${_NEXT_PUBLIC_SUPABASE_URL}"
+      - "--build-arg"
+      - "NEXT_PUBLIC_SUPABASE_ANON_KEY=${_NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+      - "-t"
+      - "${_IMAGE}"
+      - "."
+
+images:
+  - "${_IMAGE}"
+
+substitutions:
+  _IMAGE: "asia-south1-docker.pkg.dev/eventhub-production-507106/eventhub-frontend/eventhub-frontend"
+  _NEXT_PUBLIC_API_URL: "https://eventhubapp.in"
+  _NEXT_PUBLIC_SUPABASE_URL: "https://hkvapnxntmmxhplvopbg.supabase.co"
+  _NEXT_PUBLIC_SUPABASE_ANON_KEY: "sb_publishable_VGdUm3FbAbVKVd9VPCYxwA__wfVsFMD"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

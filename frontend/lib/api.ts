@@ -1,6 +1,7 @@
 import { supabase } from "@/components/AuthProvider";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export interface Event {
   id: string;
@@ -46,7 +47,7 @@ export interface EventRsvp {
   profile?: { id: string; full_name: string; avatar_url?: string };
 }
 
-async function getAuthHeaders(): Promise<HeadersInit> {
+export async function getAuthHeaders(): Promise<HeadersInit> {
   // First check if there is a demo admin token in localStorage
   if (typeof window !== 'undefined') {
     const demoAdminToken = localStorage.getItem('demo_admin_token');

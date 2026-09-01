@@ -1,11 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __importDefault(require("./app"));
-const PORT = process.env.PORT || 3001;
-app_1.default.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+import app from "./app.js";
+import { env } from "./config/env.js";
+
+app.listen(env.port, "0.0.0.0", () => {
+  console.log(`Event Bulletin Board API running on http://localhost:${env.port}`);
+  console.log(`Network API available on port ${env.port}`);
 });
-//# sourceMappingURL=server.js.map

@@ -1,0 +1,13 @@
+import { Router } from "express";
+import { listEvents, searchEvents, nearbyEvents, getEvent, createEvent, getMyEvents, updateEvent, deleteEvent } from "../controllers/events.controller.js";
+import { optionalAuth, requireAuth } from "../middleware/auth.js";
+const router = Router();
+router.get("/", listEvents);
+router.get("/search", searchEvents);
+router.get("/nearby", nearbyEvents);
+router.get("/my-events", requireAuth, getMyEvents);
+router.get("/:id", optionalAuth, getEvent);
+router.post("/", requireAuth, createEvent);
+router.put("/:id", requireAuth, updateEvent);
+router.delete("/:id", requireAuth, deleteEvent);
+export default router;

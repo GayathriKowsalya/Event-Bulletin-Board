@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { listQuestions, postQuestion, postAnswer, deleteQuestion, deleteAnswer } from "../controllers/questions.controller.js";
+import { requireAuth } from "../middleware/auth.js";
+const router = Router();
+router.get("/:id/questions", requireAuth, listQuestions);
+router.post("/:id/questions", requireAuth, postQuestion);
+router.post("/:id/questions/:questionId/answers", requireAuth, postAnswer);
+router.delete("/:id/questions/:questionId", requireAuth, deleteQuestion);
+router.delete("/:id/questions/:questionId/answers/:answerId", requireAuth, deleteAnswer);
+export default router;

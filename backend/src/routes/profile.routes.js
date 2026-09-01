@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { getProfile, updateProfile, getProfileEvents, getProfileRsvps } from "../controllers/profile.controller.js";
+import { requireAuth } from "../middleware/auth.js";
+const router = Router();
+router.use(requireAuth);
+router.get("/", getProfile);
+router.put("/", updateProfile);
+router.get("/events", getProfileEvents);
+router.get("/rsvps", getProfileRsvps);
+export default router;
